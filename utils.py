@@ -16,6 +16,7 @@ def create_llm(model_type = "ollama"):
     else:
         return ChatOpenAI(model='gpt-3.5-turbo', temperature=0)
 
+# Loading
 def load_document(file_path):
     file_extension = file_path.split('.')[-1].lower()
     if file_extension == "txt":
@@ -25,3 +26,14 @@ def load_document(file_path):
     else:
         raise ValueError(f"Unsupported file type: {file_extension}")
     return loader.load()
+
+# Splitting
+def split_pages(pages):
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=500,
+        chunk_overlap=200,
+        length_function=len,
+        is_separator_regex=False,
+    )
+    docs = text_splitter.split_documents(pages)
+    return docs
