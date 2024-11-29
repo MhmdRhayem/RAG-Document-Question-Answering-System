@@ -37,3 +37,39 @@ def ask_question(query):
     # Append the question and answer to the history with labels
     history += f"Question: {query}\nAnswer: {answer}\n\n"
     return history
+
+with gr.Blocks() as app:
+    gr.Markdown("### RAG Document Question-Answering System")
+
+    embedding_choice = gr.Dropdown(
+        ["huggingface", "ollama", "openai"], 
+        label="Select Embedding Model"
+    )
+
+    with gr.Row():
+        doc_upload = gr.File(label="Upload Document")
+        doc_upload_btn = gr.Button("Upload")
+    
+    query_input = gr.Textbox(label="Enter Your Question")
+    query_btn = gr.Button("Get Answer", interactive=False)
+
+    answer_output = gr.Textbox(label="Answer")
+    
+    doc_upload_btn.click(
+        fn=upload_document, 
+        inputs=[doc_upload], 
+        outputs=[query_btn],
+    )
+    
+    embedding_choice.change(
+        fn=select_embedding, 
+        inputs=[embedding_choice], 
+        outputs=None, 
+    )
+    query_btn.click(
+        fn=ask_question, 
+        inputs=[query_input], 
+        outputs=[answer_output],
+    )
+
+app.launch()
