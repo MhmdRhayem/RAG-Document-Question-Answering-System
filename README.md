@@ -59,3 +59,8 @@ python gradio_app.py
 - **Embedding Models:**  all-MiniLM-L6-v2, nomic-embed-text, OpenAI
 - **Vector Store:** Chroma
 - **LLM:** OpenAI GPT or phi3 
+
+## Preview
+Below is a preview of the Gradio interface for the RAG Document Question-Answering System:
+  
+![Gradio Interface](./image.png)
