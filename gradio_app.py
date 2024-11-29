@@ -23,3 +23,7 @@ def upload_document(file):
         return f"Request failed: {str(e)}"
     except ValueError as e:
         return f"Failed to parse response: {str(e)}"
+    
+def select_embedding(embedding_model):
+    response = requests.post(f"{API_URL}/select_embedding", json={"embedding_model": embedding_model})
+    return response.json()
