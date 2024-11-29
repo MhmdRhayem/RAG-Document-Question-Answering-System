@@ -44,3 +44,19 @@ def select_embedding_model():
     
     selected_embedding = data["embedding_model"]
     return jsonify({"message": f"{selected_embedding} embeddings selected"})
+
+@app.route('/ask', methods=['POST'])
+def ask_question():
+    global qa_chain
+    data = request.json
+    if not qa_chain:
+        return jsonify({"error": "Document not uploaded or processed"}), 400
+    if "query" not in data:
+        return jsonify({"error": "Invalid input"}), 400
+    
+    query = data["query"]
+    try:
+        answer = qa_chain.run(query)
+        return jsonify({"answer": answer})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
