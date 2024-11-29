@@ -54,3 +54,27 @@ def hugging_face_embedding():
     
 def openai_embedding():
     return OpenAIEmbeddings()
+
+def ollama_embedding():
+    class OllamaEmbedding():
+        def __init__(self, model_name='nomic-embed-text'):
+            self.model_name = model_name
+        
+        def embed_documents(self, docs):
+            embeddings = []
+            for doc in docs:
+                response = ollama.embeddings(
+                    model=self.model_name,
+                    prompt=doc
+                )
+                embeddings.append(response['embedding'])  
+            return embeddings
+        
+        def embed_query(self, query):
+            response = ollama.embeddings(
+                model=self.model_name,
+                prompt=query
+            )
+            return response['embedding']
+    
+    return OllamaEmbedding()
