@@ -17,7 +17,6 @@ This repository implements a Retrieval-Augmented Generation (RAG) based document
 
 ### Prerequisites
 - Python 3.8 or above
-- `pip` for dependency installation
 - [Ollama](https://ollama.com) installed for using the `phi3` and `nomic-embed-text` models.
 
 ### Steps
