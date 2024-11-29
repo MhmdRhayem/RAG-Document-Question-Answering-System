@@ -34,3 +34,13 @@ def upload_document():
             print("Error processing file:", str(e))
             return jsonify({"error": "Failed to process document"}), 500
     return jsonify({"error": "File upload failed"}), 500
+
+@app.route('/select_embedding', methods=['POST'])
+def select_embedding_model():
+    global selected_embedding
+    data = request.json
+    if "embedding_model" not in data:
+        return jsonify({"error": "No embedding model specified"}), 400
+    
+    selected_embedding = data["embedding_model"]
+    return jsonify({"message": f"{selected_embedding} embeddings selected"})
