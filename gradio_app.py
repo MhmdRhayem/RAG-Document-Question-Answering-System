@@ -27,3 +27,13 @@ def upload_document(file):
 def select_embedding(embedding_model):
     response = requests.post(f"{API_URL}/select_embedding", json={"embedding_model": embedding_model})
     return response.json()
+
+def ask_question(query):
+    global history
+    gr.Info(f"Wait while querying ...")
+    response = requests.post(f"{API_URL}/ask", json={"query": query})
+    answer = response.json().get("answer", "No answer found.")
+    
+    # Append the question and answer to the history with labels
+    history += f"Question: {query}\nAnswer: {answer}\n\n"
+    return history
