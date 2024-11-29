@@ -37,3 +37,15 @@ def split_pages(pages):
     )
     docs = text_splitter.split_documents(pages)
     return docs
+
+# Embeddings
+def hugging_face_embedding():    
+    class MyEmbedding():
+        def __init__(self):
+            self.model = SentenceTransformer('all-MiniLM-L6-v2', trust_remote_code=True, truncate_dim=384)
+                
+        def embed_documents(self, docs):
+            return [self.model.encode(doc).tolist() for doc in docs]
+        
+        def embed_query(self, query):
+            return self.model.encode(query).tolist()
