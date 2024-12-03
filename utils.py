@@ -55,7 +55,7 @@ def hugging_face_embedding():
         def embed_query(self, query):
             return self.model.encode(query).tolist()
 
-        return MyEmbedding()
+    return MyEmbedding()
 
 
 def openai_embedding():
