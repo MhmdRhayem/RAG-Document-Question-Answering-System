@@ -27,10 +27,21 @@ def upload_document(file):
 
 
 def select_embedding(embedding_model):
-    response = requests.post(
-        f"{API_URL}/select_embedding", json={"embedding_model": embedding_model}
-    )
-    return response.json()
+    try:
+        response = requests.post(
+            f"{API_URL}/select_embedding", json={"embedding_model": embedding_model}
+        )
+        if response.status_code != 200:
+            return f"Error: {response.text}"
+        print("Creating Vector Store ...")
+        requests.post(
+            f"{API_URL}/create_vector_store",
+            json={"selected_embedding": embedding_model},
+        )
+        return f"Embedding model '{embedding_model}' selected and vector store created."
+    except requests.exceptions.RequestException as e:
+        return f"Request failed: {str(e)}"
+
 
 
 def ask_question(query):
@@ -69,7 +80,7 @@ with gr.Blocks() as app:
     embedding_choice.change(
         fn=select_embedding,
         inputs=[embedding_choice],
-        outputs=None,
+        outputs=[],
     )
     query_btn.click(
         fn=ask_question,
