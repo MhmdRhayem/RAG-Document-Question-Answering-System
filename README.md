@@ -63,4 +63,4 @@ python gradio_app.py
 ## Preview
 Below is a preview of the Gradio interface for the RAG Document Question-Answering System:
   
-![Gradio Interface](./image.png)
+![Gradio Interface](./image.gif)
