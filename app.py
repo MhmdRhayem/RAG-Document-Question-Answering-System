@@ -26,8 +26,6 @@ def upload_document():
             print("Done Splitting")
             vector_db = create_vector_store(docs, selected_embedding)
             print("Done Creating Vector Store")
-            qa_chain = create_chain(vector_db)
-            print("Done Creating QA Chain")
             return jsonify(
                 {
                     "message": "File uploaded and processed successfully",
@@ -55,7 +53,9 @@ def select_embedding_model():
 
 @app.route("/ask", methods=["POST"])
 def ask_question():
-    global qa_chain
+    global qa_chain, vector_db
+    qa_chain = create_chain(vector_db)
+    print("Done Creating QA Chain")
     data = request.json
     if not qa_chain:
         return jsonify({"error": "Document not uploaded or processed"}), 400
