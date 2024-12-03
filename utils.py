@@ -10,7 +10,7 @@ from langchain.chains import RetrievalQA
 from langchain.memory import ConversationBufferWindowMemory
 
 
-def create_llm(model_type="ollama"):
+def create_llm(model_type="openai"):
     if model_type == "ollama":
         return Ollama(model="phi3")
     else:
