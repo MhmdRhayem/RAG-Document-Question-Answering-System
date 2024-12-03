@@ -1,16 +1,23 @@
 from flask import Flask, request, jsonify
 import os
-from utils import load_document, split_pages, create_vector_store, create_chain
+from utils import load_document, split_pages, create_vector_store, create_chain, add_documents
 
 app = Flask(__name__)
-selected_embedding = "ollama"
+selected_embedding = "openai"
+docs = None
 vector_db = None
 qa_chain = None
 
+@app.route("/create_vector_store",methods = ["POST"])
+def create_store():
+    global vector_db
+    selected_embedding = request.json["selected_embedding"]
+    vector_db = create_vector_store(selected_embedding)
+    print("Done Creating Vector Store")
 
 @app.route("/upload", methods=["POST"])
 def upload_document():
-    global vector_db, qa_chain
+    global vector_db
     if "file" not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
 
@@ -24,8 +31,8 @@ def upload_document():
             print("Done Loading")
             docs = split_pages(pages)
             print("Done Splitting")
-            vector_db = create_vector_store(docs, selected_embedding)
-            print("Done Creating Vector Store")
+            add_documents(vector_db, docs)
+            
             return jsonify(
                 {
                     "message": "File uploaded and processed successfully",
