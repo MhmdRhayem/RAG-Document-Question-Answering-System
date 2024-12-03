@@ -82,7 +82,7 @@ def ollama_embedding():
 
 
 # Vector Store
-def create_vector_store(docs, embedding_type):
+def create_vector_store(embedding_type):
     if embedding_type == "huggingface":
         embedding = hugging_face_embedding()
         persist_directory = "./chroma/huggingface"
@@ -93,13 +93,14 @@ def create_vector_store(docs, embedding_type):
         embedding = openai_embedding()
         persist_directory = "./chroma/openAI"
 
-    vectordb = Chroma.from_documents(
-        documents=docs,
-        embedding=embedding,
+    vectordb = Chroma(
+        embedding_function=embedding,
         persist_directory=persist_directory,
     )
     return vectordb
 
+def add_documents(vector_db, docs):
+    vector_db.add_documents(documents=docs)
 
 # Chain
 def create_chain(vectordb):
