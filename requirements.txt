@@ -5,3 +5,8 @@ shutil
 sentence-transformers==2.2.2
 langchain==0.0.259
 ollama==1.0.0
+numpy<2
+transformers
+tensorflow
+langchain
+langchain-community
